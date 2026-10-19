@@ -1,0 +1,43 @@
+{
+  "name": "grabbly",
+  "version": "2.0.0",
+  "description": "Grabbly: bulk media downloader for social profiles",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/media.test.js",
+    "dist:mac": "electron-builder --mac --x64 --arm64",
+    "dist:win": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.obudilovsky.grabbly",
+    "productName": "Grabbly",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.utilities",
+      "artifactName": "${productName}-${arch}.${ext}"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "artifactName": "${productName}-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable.${ext}"
+    }
+  }
+}
