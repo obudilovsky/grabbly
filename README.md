@@ -4,6 +4,14 @@
 
 Desktop app for macOS and Windows. Paste an Instagram link, see every post as a thumbnail, tick what you want and save it in bulk.
 
+## Screenshots
+
+![Start screen](docs/screenshot-empty.png)
+
+![Posts loaded and selected (sample data)](docs/screenshot-loaded.png)
+
+The second screenshot uses generated placeholder thumbnails, not real posts.
+
 ## What it downloads
 
 - **Posts & Reels** from a profile: photos, videos, carousels (every slide is saved as its own file).
@@ -47,3 +55,7 @@ git tag v2.0.1 && git push origin v2.0.1
 ## Tests
 
 `npm test` runs the unit tests. `test/e2e.js` runs against a real account (needs a cookies file, see the header of the script).
+
+## Branding
+
+The app icon (`build/icon.svg`, rendered to `build/icon.png`) uses the "g" glyph from **Lobster** by Impallari Type, licensed under the SIL Open Font License 1.1. The font file and license are in `assets/fonts/`.

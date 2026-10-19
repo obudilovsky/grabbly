@@ -18,6 +18,7 @@
     "productName": "Grabbly",
     "files": [
       "src/**/*",
+      "assets/**/*",
       "package.json"
     ],
     "mac": {

@@ -1,3 +1,4 @@
+@font-face { font-family: "Lobster"; src: url("../assets/fonts/Lobster-Regular.ttf") format("truetype"); font-display: block; }
 :root {
   --bg: #0e0f13; --panel: #16181f; --panel2: #1d2029; --line: #ffffff14; --text: #eceef4; --muted: #8b90a0;
   --a1: #ff8a3d; --a2: #ff3d7f; --a3: #8a4dff; --ok: #34d399; --err: #f87171;
@@ -23,7 +24,7 @@ body.mac .top { padding-left: 84px; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .logo { width: 30px; height: 30px; border-radius: 9px; background: var(--grad); display: grid; place-items: center; color: #fff; box-shadow: 0 6px 18px #ff3d7f55; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-.brand-text b { font-size: 14px; letter-spacing: -.01em; } .brand-text span { font-size: 11px; color: var(--muted); }
+.brand-text b { font-family: "Lobster", cursive; font-weight: 400; font-size: 20px; letter-spacing: .01em; } .brand-text span { font-size: 11px; color: var(--muted); }
 .top-actions { display: flex; gap: 8px; align-items: center; }
 
 /* buttons */
