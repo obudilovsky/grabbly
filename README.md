@@ -2,7 +2,7 @@
 
 **Bulk media downloader for social profiles.**
 
-Electron app for macOS and Windows. Paste an Instagram link, see every post as a thumbnail, tick what you want and save it in bulk.
+Desktop app for macOS and Windows. Paste an Instagram link, see every post as a thumbnail, tick what you want and save it in bulk.
 
 ## What it downloads
 
@@ -27,6 +27,14 @@ npm start
 ```
 npm run dist:mac   # .dmg (Apple Silicon + Intel), run on macOS
 npm run dist:win   # .exe installer + portable (x64)
+```
+
+## Releases
+
+Pushing a tag like `v2.0.1` builds the macOS and Windows installers on GitHub Actions and attaches them to a GitHub Release automatically.
+
+```
+git tag v2.0.1 && git push origin v2.0.1
 ```
 
 ## Notes
