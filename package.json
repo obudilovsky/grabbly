@@ -34,6 +34,7 @@
       "assets/**/*",
       "package.json"
     ],
+    "afterPack": "scripts/adhoc-sign.js",
     "mac": {
       "target": [
         "dmg"
