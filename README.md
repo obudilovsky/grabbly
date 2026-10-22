@@ -2,7 +2,18 @@
 
 **Bulk media downloader for social profiles.**
 
-Desktop app for macOS and Windows. Enter an Instagram username, see every post as a thumbnail, tick what you want and save it in bulk.
+Enter an Instagram username, see every post as a thumbnail, tick what you want and save it in bulk. Runs on desktop and on phones:
+
+| Platform | App | Download | Where files go |
+|---|---|---|---|
+| macOS, Apple Silicon | Desktop | `Grabbly-macOS-AppleSilicon.dmg` | Folder of your choice (Settings) |
+| macOS, Intel | Desktop | `Grabbly-macOS-Intel.dmg` | Folder of your choice (Settings) |
+| Windows | Desktop, installer | `Grabbly-Windows-Installer.exe` | Folder of your choice (Settings) |
+| Windows | Desktop, portable (no install) | `Grabbly-Windows-Portable.exe` | Folder of your choice (Settings) |
+| Android | Mobile | `Grabbly-Android.apk` (debug build, allow installs from unknown sources) | "Grabbly" photo album |
+| iOS | Mobile | `Grabbly-iOS-Simulator.zip` (iOS Simulator only; a real iPhone needs signing with your Apple account) | "Grabbly" photo album |
+
+Get the files from the [latest release](https://github.com/obudilovsky/grabbly/releases/latest). The macOS and Windows builds are not code-signed, so the system asks you to confirm the first launch.
 
 ## Screenshots
 
