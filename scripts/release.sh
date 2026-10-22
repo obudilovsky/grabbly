@@ -62,11 +62,6 @@ PREV="$(git describe --tags --abbrev=0 2>/dev/null || true)"
   echo
   echo "The macOS and Windows builds are not code-signed, so macOS and Windows will ask you to confirm the first launch."
   echo
-  echo "## Screenshots"
-  echo
-  RAW="https://raw.githubusercontent.com/obudilovsky/grabbly/$TAG/design/screenshots"
-  echo "<img src=\"$RAW/mobile-home.png\" width=\"240\"> <img src=\"$RAW/mobile-results.png\" width=\"240\"> <img src=\"$RAW/mobile-settings.png\" width=\"240\">"
-  echo
   echo "## Changes"
   echo
   git log ${PREV:+"$PREV"..HEAD} --no-merges --pretty='- %s' -n 30 | grep -v '^- Release v' || true

@@ -8,7 +8,7 @@ Everything visual that ships with the apps, in one place. The files are copies: 
 |---|---|
 | `app-icon/` | `icon.svg` (master) and `icon-1024.png`; `android/` adaptive icon layers (SVG) and the launcher PNGs for every density; `ios/` the 1024 px App Store icon and its SVG |
 | `splash/` | Splash screen: SVG master, Android portrait xxxhdpi, iOS 2732 px |
-| `ui/` | `logo-160.png` (header logo), `empty-state.svg`, `icons/` (download, menu, close, trash, folder, play, carousel, 24 px line icons using `currentColor`) |
+| `ui/` | `logo-160.png` (header logo), `empty-state.svg`, `icons/` (download, menu, close, reset, folder, play, carousel, 24 px line icons using `currentColor`) |
 | `fonts/` | `Lobster-Regular.ttf` and its SIL Open Font License |
 | `screenshots/` | Phone screens: home, results with selection, settings. Made with synthetic thumbnails, no real accounts or people |
 

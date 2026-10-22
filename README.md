@@ -6,11 +6,17 @@ Desktop app for macOS and Windows. Enter an Instagram username, see every post a
 
 ## Screenshots
 
+Desktop (below):
+
 ![Start screen](docs/screenshot-empty.png)
 
 ![Posts loaded and selected (sample data)](docs/screenshot-loaded.png)
 
-The second screenshot uses generated placeholder thumbnails, not real posts.
+Mobile (below):
+
+<img src="design/screenshots/mobile-home.png" width="240"> <img src="design/screenshots/mobile-results.png" width="240"> <img src="design/screenshots/mobile-settings.png" width="240">
+
+The results screenshots use generated placeholder thumbnails, not real posts.
 
 ## What it downloads
 
@@ -37,10 +43,6 @@ npm start
 npm run dist:mac   # .dmg (Apple Silicon + Intel), run on macOS
 npm run dist:win   # .exe installer + portable (x64)
 ```
-
-## Screenshots
-
-<img src="design/screenshots/mobile-home.png" width="240"> <img src="design/screenshots/mobile-results.png" width="240"> <img src="design/screenshots/mobile-settings.png" width="240">
 
 Icons, splash screens, fonts, colours and style notes live in [`design/`](design/README.md).
 

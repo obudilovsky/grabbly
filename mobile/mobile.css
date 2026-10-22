@@ -11,7 +11,8 @@ html.mobile .filters { padding: 2px 16px 4px; gap: 8px; flex-direction: column; 
 html.mobile .seg { display: flex; width: 100%; }
 html.mobile .seg button { flex: 1 1 0; min-width: 0; padding: 7px 4px; white-space: nowrap; }
 html.mobile .seg-label { display: none; }
-html.mobile .toolbar { padding: 8px 16px; gap: 8px; flex-wrap: wrap; }
+html.mobile .toolbar { padding: 8px 16px; gap: 8px; flex-wrap: nowrap; }
+html.mobile .toolbar .pill { display: none; }
 html.mobile .toolbar .sel, html.mobile .zoom input { display: none; }
 html.mobile .zoom { gap: 6px; }
 html.mobile .zbtn { width: 40px; height: 36px; font-size: 22px; }

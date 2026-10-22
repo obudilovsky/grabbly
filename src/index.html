@@ -54,10 +54,10 @@
   </div>
 
   <section class="toolbar">
-    <label class="check"><input type="checkbox" id="all"><i></i><span>Select all</span></label>
+    <button id="all" class="ghost sm" aria-pressed="false">Select all</button>
     <span id="count" class="pill">0 selected</span>
-    <button id="clear" class="ghost sm" disabled>
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>Clear
+    <button id="clear" class="ghost sm" title="Reset: clear the cards and go back to the start screen" disabled>
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Reset
     </button>
     <span class="spacer"></span>
     <div class="zoom" title="Thumbnail size">

@@ -42,7 +42,10 @@ function refresh() {
   $('load').disabled = busy();
     $('clear').disabled = busy() || items.size === 0;
   const vis = [...items.values()].filter(visible).length;
-  $('all').checked = vis > 0 && sel === vis;
+  const allOn = vis > 0 && sel === vis;
+  $('all').textContent = allOn ? 'Deselect all' : 'Select all';
+  $('all').setAttribute('aria-pressed', allOn);
+  $('all').disabled = busy() || vis === 0;
   $('empty').hidden = items.size > 0 || mode === 'listing';
   document.body.classList.toggle('has-cards', items.size > 0 && !editing); // phone: search + filters fold into a one-line summary
   if (items.size > 0) {
@@ -170,9 +173,10 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') settings.h
 
 $('url').addEventListener('keydown', (e) => e.key === 'Enter' && !busy() && $('load').click());
 
-$('all').onchange = () => {
+$('all').onclick = () => {
   if (busy()) return;
-  for (const rec of items.values()) setSelected(rec, $('all').checked && visible(rec));
+  const on = $('all').getAttribute('aria-pressed') !== 'true';
+  for (const rec of items.values()) setSelected(rec, on && visible(rec));
   refresh();
 };
 
@@ -181,6 +185,7 @@ $('clear').onclick = () => {
   items.clear();
   grid.textContent = '';
   editing = false;
+  $('url').value = '';
   setMsg('');
   $('scroller').scrollTop = 0;
   refresh();
