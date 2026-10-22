@@ -13,7 +13,20 @@ Enter an Instagram username, see every post as a thumbnail, tick what you want a
 | Android | Mobile | `Grabbly-Android.apk` (debug build, allow installs from unknown sources) | "Grabbly" photo album |
 | iOS | Mobile | `Grabbly-iOS-Simulator.zip` (iOS Simulator only; a real iPhone needs signing with your Apple account) | "Grabbly" photo album |
 
-Get the files from the [latest release](https://github.com/obudilovsky/grabbly/releases/latest). The macOS and Windows builds are not code-signed, so the system asks you to confirm the first launch.
+Get the files from the [latest release](https://github.com/obudilovsky/grabbly/releases/latest).
+
+### First launch
+
+The desktop builds are not notarized, so macOS and Windows ask you to confirm the first launch.
+
+- **macOS:** the message says Apple could not verify Grabbly. Click Done, open System Settings, Privacy & Security, scroll down, click **Open Anyway** next to Grabbly and confirm with your password. You only do this once. Or remove the quarantine flag in Terminal:
+
+  ```
+  xattr -cr /Applications/Grabbly.app
+  ```
+- **Windows:** in the SmartScreen window click **More info**, then **Run anyway**.
+- **Android:** allow installs from unknown sources for the browser or file manager you opened the APK with.
+- **iOS:** the zip runs in the iOS Simulator only; a real iPhone needs the app signed with your own Apple account.
 
 ## Screenshots
 
