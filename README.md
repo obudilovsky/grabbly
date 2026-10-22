@@ -6,13 +6,13 @@ Desktop app for macOS and Windows. Enter an Instagram username, see every post a
 
 ## Screenshots
 
-Desktop (below):
+### Desktop app
 
 ![Start screen](docs/screenshot-empty.png)
 
 ![Posts loaded and selected (sample data)](docs/screenshot-loaded.png)
 
-Mobile (below):
+### Mobile app (iOS and Android)
 
 <img src="design/screenshots/mobile-home.png" width="240"> <img src="design/screenshots/mobile-results.png" width="240"> <img src="design/screenshots/mobile-settings.png" width="240">
 
@@ -54,7 +54,7 @@ Every version is published the same way, with one script that bumps the version,
 scripts/release.sh 2.0.3
 ```
 
-It needs macOS with Xcode, JDK 21, the Android SDK and a logged-in `gh`. Each release carries six files: `Grabbly-arm64.dmg`, `Grabbly-x64.dmg`, `Grabbly-Setup.exe`, `Grabbly-Portable.exe`, `Grabbly-android-debug.apk` and `Grabbly-ios-simulator.zip` (iOS runs in the Simulator only, a real iPhone needs signing). Old releases stay; every run adds a new version.
+It needs macOS with Xcode, JDK 21, the Android SDK and a logged-in `gh`. Each release carries six files: `Grabbly-macOS-AppleSilicon.dmg`, `Grabbly-macOS-Intel.dmg`, `Grabbly-Windows-Installer.exe`, `Grabbly-Windows-Portable.exe`, `Grabbly-Android.apk` and `Grabbly-iOS-Simulator.zip` (iOS runs in the Simulator only, a real iPhone needs signing). Old releases stay; every run adds a new version.
 
 `npm test` runs the unit tests. `test/e2e.js` runs against a real account (needs a cookies file, see the header of the script).
 

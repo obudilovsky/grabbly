@@ -32,18 +32,21 @@ mkdir -p "$OUT"
 npx electron-builder --mac dmg --arm64
 npx electron-builder --mac dmg --x64
 npx electron-builder --win nsis portable --x64
-cp dist/Grabbly-arm64.dmg dist/Grabbly-x64.dmg dist/Grabbly-Setup.exe dist/Grabbly-Portable.exe "$OUT/"
+cp dist/Grabbly-arm64.dmg "$OUT/Grabbly-macOS-AppleSilicon.dmg"
+cp dist/Grabbly-x64.dmg "$OUT/Grabbly-macOS-Intel.dmg"
+cp dist/Grabbly-Setup.exe "$OUT/Grabbly-Windows-Installer.exe"
+cp dist/Grabbly-Portable.exe "$OUT/Grabbly-Windows-Portable.exe"
 
 # mobile: web bundle, then Android APK and the iOS app for the simulator
 npm run mobile:build
 (cd android && ./gradlew assembleDebug -q)
-cp android/app/build/outputs/apk/debug/app-debug.apk "$OUT/Grabbly-android-debug.apk"
+cp android/app/build/outputs/apk/debug/app-debug.apk "$OUT/Grabbly-Android.apk"
 DD="$(mktemp -d)"
 (cd ios/App && xcodebuild -project App.xcodeproj -scheme App -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$DD" build -quiet)
-ditto -c -k --keepParent "$DD/Build/Products/Debug-iphonesimulator/App.app" "$OUT/Grabbly-ios-simulator.zip"
+ditto -c -k --keepParent "$DD/Build/Products/Debug-iphonesimulator/App.app" "$OUT/Grabbly-iOS-Simulator.zip"
 
 # every installer must exist before anything is published
-for f in Grabbly-arm64.dmg Grabbly-x64.dmg Grabbly-Setup.exe Grabbly-Portable.exe Grabbly-android-debug.apk Grabbly-ios-simulator.zip; do
+for f in Grabbly-macOS-AppleSilicon.dmg Grabbly-macOS-Intel.dmg Grabbly-Windows-Installer.exe Grabbly-Windows-Portable.exe Grabbly-Android.apk Grabbly-iOS-Simulator.zip; do
   [[ -s "$OUT/$f" ]] || { echo "missing $OUT/$f" >&2; exit 1; }
 done
 
@@ -53,12 +56,12 @@ PREV="$(git describe --tags --abbrev=0 2>/dev/null || true)"
   echo
   echo "| Platform | File |"
   echo "|---|---|"
-  echo "| macOS, Apple Silicon | \`Grabbly-arm64.dmg\` |"
-  echo "| macOS, Intel | \`Grabbly-x64.dmg\` |"
-  echo "| Windows, installer | \`Grabbly-Setup.exe\` |"
-  echo "| Windows, portable | \`Grabbly-Portable.exe\` |"
-  echo "| Android | \`Grabbly-android-debug.apk\` (debug build, enable installs from unknown sources) |"
-  echo "| iOS | \`Grabbly-ios-simulator.zip\` (runs in the iOS Simulator only; a real iPhone needs signing with your Apple account) |"
+  echo "| macOS, Apple Silicon | \`Grabbly-macOS-AppleSilicon.dmg\` |"
+  echo "| macOS, Intel | \`Grabbly-macOS-Intel.dmg\` |"
+  echo "| Windows, installer | \`Grabbly-Windows-Installer.exe\` |"
+  echo "| Windows, portable | \`Grabbly-Windows-Portable.exe\` |"
+  echo "| Android | \`Grabbly-Android.apk\` (debug build, enable installs from unknown sources) |"
+  echo "| iOS | \`Grabbly-iOS-Simulator.zip\` (runs in the iOS Simulator only; a real iPhone needs signing with your Apple account) |"
   echo
   echo "The macOS and Windows builds are not code-signed, so macOS and Windows will ask you to confirm the first launch."
   echo
@@ -73,6 +76,6 @@ git tag "$TAG"
 git push origin HEAD "$TAG"
 
 gh release create "$TAG" --title "Grabbly $TAG" --notes-file "$OUT/notes.md" --latest \
-  "$OUT"/Grabbly-arm64.dmg "$OUT"/Grabbly-x64.dmg "$OUT"/Grabbly-Setup.exe "$OUT"/Grabbly-Portable.exe \
-  "$OUT"/Grabbly-android-debug.apk "$OUT"/Grabbly-ios-simulator.zip
+  "$OUT"/Grabbly-macOS-AppleSilicon.dmg "$OUT"/Grabbly-macOS-Intel.dmg "$OUT"/Grabbly-Windows-Installer.exe "$OUT"/Grabbly-Windows-Portable.exe \
+  "$OUT"/Grabbly-Android.apk "$OUT"/Grabbly-iOS-Simulator.zip
 echo "Published $TAG"
