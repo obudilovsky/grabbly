@@ -1,6 +1,6 @@
 {
   "name": "grabbly",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Grabbly: bulk media downloader for social profiles",
   "main": "src/main.js",
   "scripts": {
