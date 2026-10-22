@@ -14,6 +14,7 @@ assert.deepStrictEqual(m.parseUrl('https://www.instagram.com/stories/instagram/'
 assert.deepStrictEqual(m.parseUrl('instagram'), { type: 'profile', username: 'instagram' });
 assert.deepStrictEqual(m.parseUrl('  @instagram '), { type: 'profile', username: 'instagram' });
 assert.deepStrictEqual(m.parseUrl('instagram.com/instagram'), { type: 'profile', username: 'instagram' });
+assert.deepStrictEqual(m.parseUrl(' @user.name_1 '), { type: 'profile', username: 'user.name_1' }); // dots and underscores are allowed
 assert.strictEqual(m.parseUrl('not a name'), null);
 assert.strictEqual(m.parseUrl('explore'), null);
 assert.strictEqual(m.parseUrl('https://example.com/a/'), null);
