@@ -12,7 +12,11 @@ const RESERVED = new Set(['p', 'reel', 'reels', 'tv', 'stories', 'explore', 'acc
 // -> {type:'post', code} | {type:'stories', username, storyId} | {type:'profile', username} | null
 function parseUrl(url) {
   let u;
-  try { u = new URL(url); } catch { return null; }
+  const raw = String(url).trim();
+  // A bare username ("name" or "@name") is the normal input; links keep working too.
+  const bare = raw.replace(/^@/, '');
+  if (!/instagram\.com/i.test(raw) && /^[A-Za-z0-9._]{1,30}$/.test(bare) && !RESERVED.has(bare.toLowerCase())) return { type: 'profile', username: bare };
+  try { u = new URL(/^[a-z][a-z0-9+.-]*:\/\//i.test(raw) ? raw : `https://${raw}`); } catch { return null; } // scheme is optional
   if (!/(^|\.)instagram\.com$/.test(u.hostname)) return null;
   const parts = u.pathname.split('/').filter(Boolean);
   if (!parts.length) return null;

@@ -46,6 +46,23 @@ class ApiClient {
     return res.json;
   }
 
+  // Reads the media item embedded in the post page (own hidden window); falls back to the API call.
+  async mediaFromPage(code) {
+    const { postJson } = require('./scraper');
+    const w = new BrowserWindow({ show: false, width: 1280, height: 1000, webPreferences: { session: this.session, backgroundThrottling: false } });
+    try {
+      await w.loadURL(`https://www.instagram.com/p/${code}/`);
+      for (let i = 0; i < 8; i++) {
+        const item = await w.webContents.executeJavaScript(postJson(code));
+        if (item) return item;
+        await sleep(1000);
+      }
+    } catch { /* fall back below */ } finally {
+      if (!w.isDestroyed()) w.destroy();
+    }
+    return this.mediaInfo(code);
+  }
+
   async mediaInfo(code) {
     const j = await this.get(`/api/v1/media/${shortcodeToId(code)}/info/`);
     if (!j.items || !j.items.length) throw new Error('Post not found or not accessible');

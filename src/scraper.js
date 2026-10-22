@@ -43,6 +43,27 @@ function toEntry(t, username) {
   };
 }
 
+// True once Instagram renders its "page isn't available" screen (title or heading, a few common UI languages).
+const NOT_FOUND = `/page not found|isn.t available|not available|страница не найдена|недоступна|seite nicht gefunden|nicht verfügbar|сторінку не знайдено|недоступна/i.test(document.title + ' ' + ((document.querySelector('main, #react-root') || document.body).innerText || '').slice(0, 400))`;
+// Finds a post's media item in the JSON that the post page embeds for itself (same shape as the /media/info API item).
+// Reading the page instead of calling the API keeps downloads working when Instagram throttles the API.
+const postJson = (code) => `(() => {
+  for (const s of document.querySelectorAll('script[type="application/json"]')) {
+    const t = s.textContent;
+    if (!t.includes('image_versions2') && !t.includes('video_versions')) continue;
+    let found = null;
+    const walk = (o) => {
+      if (found || !o || typeof o !== 'object') return;
+      if (o.code === ${JSON.stringify(code)} && (o.image_versions2 || o.video_versions || o.carousel_media)) { found = o; return; }
+      for (const k in o) walk(o[k]);
+    };
+    try { walk(JSON.parse(t)); } catch {}
+    if (found) return found;
+  }
+  return null;
+})()`;
+const notFound = (u) => new Error(`Instagram user "${u}" does not exist.`);
+
 // only: 'reel' | 'post' | undefined (all). Reels are read from the dedicated /reels/ tab, posts from the main grid.
 async function scrapeProfile({ api, username, limit, onEntry, only, isCancelled = () => false }) {
   const win = await api.open(`https://www.instagram.com/${encodeURIComponent(username)}/${only === 'reel' ? 'reels/' : ''}`);
@@ -51,6 +72,7 @@ async function scrapeProfile({ api, username, limit, onEntry, only, isCancelled 
   for (let round = 0; round < 500 && seen.size < limit && idle < 6 && !isCancelled(); round++) {
     await sleep(1500);
     if (/\/accounts\/login/.test(win.webContents.getURL())) throw new Error('Not logged in. Click "Log in to Instagram" first.');
+    if (await win.webContents.executeJavaScript(NOT_FOUND)) throw notFound(username);
     let added = 0;
     for (const t of await win.webContents.executeJavaScript(EXTRACT)) {
       if (seen.has(t.code) || seen.size >= limit) continue;
@@ -65,4 +87,4 @@ async function scrapeProfile({ api, username, limit, onEntry, only, isCancelled 
   return { count: seen.size, firstCode: seen.values().next().value };
 }
 
-module.exports = { scrapeProfile, kindFromTile };
+module.exports = { scrapeProfile, kindFromTile, toEntry, EXTRACT, NOT_FOUND, notFound, postJson };

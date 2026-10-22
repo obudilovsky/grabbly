@@ -6,6 +6,7 @@ let mode = 'idle'; // idle | listing | downloading
 let batch = []; // records being downloaded
 let source = ['all', 'posts', 'reels', 'stories'].includes(localStorage.getItem('source')) ? localStorage.getItem('source') : 'all';
 let mediaType = localStorage.getItem('mediaType') || 'both';
+let editing = false; // search panel re-opened by hand while cards are shown
 
 if (new URLSearchParams(location.search).get('platform') === 'darwin') document.body.classList.add('mac');
 
@@ -39,10 +40,16 @@ function refresh() {
   $('download').disabled = busy() || !sel || !dir;
   $('download').textContent = sel ? `Download ${sel} post${sel > 1 ? 's' : ''}` : 'Download selected';
   $('load').disabled = busy();
-  $('clear').disabled = busy() || items.size === 0;
+    $('clear').disabled = busy() || items.size === 0;
   const vis = [...items.values()].filter(visible).length;
   $('all').checked = vis > 0 && sel === vis;
   $('empty').hidden = items.size > 0 || mode === 'listing';
+  document.body.classList.toggle('has-cards', items.size > 0 && !editing); // phone: search + filters fold into a one-line summary
+  if (items.size > 0) {
+    const labels = { all: 'All', posts: 'Posts', reels: 'Reels', stories: 'Stories' };
+    const types = { both: 'Photos + Videos', photos: 'Photos', videos: 'Videos' };
+    $('summaryText').textContent = `@${$('url').value.trim().replace(/^@/, '')} · ${labels[source]} · ${types[mediaType]}`;
+  }
 }
 
 function setSelected(rec, on) {
@@ -138,13 +145,14 @@ $('load').onclick = async () => {
   if (!url) return;
   items.clear();
   grid.textContent = '';
+  editing = false;
   mode = 'listing';
   setMsg('');
   setTask('Loading videos…', null);
   refresh();
   try {
     const { count, cancelled } = await window.api.list({ url, limit: Number($('limit').value) || 30, source });
-    setMsg(cancelled ? `Stopped, ${count} loaded` : count ? `${count} videos loaded` : 'Nothing found');
+    setMsg(cancelled ? `Stopped, ${count} loaded` : count ? `${count} posts loaded` : 'Nothing found');
   } catch (e) {
     setMsg(`${e.message.replace(/^Error invoking remote method '\w+': (Error: )?/, '')}`, true);
   }
@@ -152,6 +160,14 @@ $('load').onclick = async () => {
   setTask();
   refresh();
 };
+$('edit').onclick = () => { editing = true; refresh(); };
+
+const settings = $('settings');
+$('menu').onclick = () => { settings.hidden = false; };
+$('settingsClose').onclick = () => { settings.hidden = true; };
+settings.onclick = (e) => { if (e.target === settings) settings.hidden = true; };
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') settings.hidden = true; });
+
 $('url').addEventListener('keydown', (e) => e.key === 'Enter' && !busy() && $('load').click());
 
 $('all').onchange = () => {
@@ -164,21 +180,43 @@ $('clear').onclick = () => {
   if (busy()) return;
   items.clear();
   grid.textContent = '';
+  editing = false;
   setMsg('');
   $('scroller').scrollTop = 0;
   refresh();
 };
 
-$('zoom').oninput = () => {
-  document.documentElement.style.setProperty('--size', `${$('zoom').value}px`);
-  localStorage.setItem('zoom', $('zoom').value);
-};
-if (localStorage.getItem('zoom')) $('zoom').value = localStorage.getItem('zoom');
-$('zoom').oninput();
+const mobileUi = document.documentElement.classList.contains('mobile');
+if (mobileUi) {
+  // phone: − / + change how many cards sit side by side (1–4), more columns = smaller cards
+  let cols = Math.min(4, Math.max(1, Number(localStorage.getItem('cols')) || 2));
+  const applyCols = () => {
+    $('grid').style.setProperty('--cols', cols);
+    localStorage.setItem('cols', cols);
+    $('zoomOut').disabled = cols >= 4;
+    $('zoomIn').disabled = cols <= 1;
+  };
+  $('zoomOut').onclick = () => { cols = Math.min(4, cols + 1); applyCols(); };
+  $('zoomIn').onclick = () => { cols = Math.max(1, cols - 1); applyCols(); };
+  applyCols();
+} else {
+  const apply = () => {
+    document.documentElement.style.setProperty('--size', `${$('zoom').value}px`);
+    localStorage.setItem('zoom', $('zoom').value);
+    $('zoomOut').disabled = Number($('zoom').value) <= Number($('zoom').min);
+    $('zoomIn').disabled = Number($('zoom').value) >= Number($('zoom').max);
+  };
+  const nudge = (d) => { $('zoom').value = Number($('zoom').value) + d * Number($('zoom').step); apply(); };
+  $('zoom').oninput = apply;
+  $('zoomOut').onclick = () => nudge(-1);
+  $('zoomIn').onclick = () => nudge(1);
+  if (localStorage.getItem('zoom')) $('zoom').value = localStorage.getItem('zoom');
+  apply();
+}
 
 async function refreshLogin() {
   const ok = await window.api.loginStatus();
-  $('loginLabel').textContent = ok ? 'Logged in · Log out' : 'Log in to Instagram';
+  $('loginLabel').textContent = mobileUi ? (ok ? 'Log out' : 'Log in') : ok ? 'Logged in · Log out' : 'Log in to Instagram';
   $('login').classList.toggle('on', ok);
 }
 $('login').onclick = async () => {

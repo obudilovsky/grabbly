@@ -1,0 +1,33 @@
+/* Phone layout, applied on top of src/styles.css when the app runs inside Capacitor. */
+html.mobile body { font-size: 15px; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+html.mobile .app { height: 100dvh; padding-top: env(safe-area-inset-top); }
+html.mobile .top { padding: 10px 16px 4px; }
+html.mobile .search { flex-wrap: wrap; padding: 10px 16px 6px; gap: 8px; }
+html.mobile .field input { font-size: 16px; } /* below 16px iOS zooms the page when an input is focused */
+html.mobile .field.url { flex: 1 1 100%; }
+html.mobile .field.num { flex: 0 0 120px; }
+html.mobile .search .primary { flex: 1; }
+html.mobile .filters { padding: 2px 16px 4px; gap: 8px; flex-direction: column; align-items: stretch; }
+html.mobile .seg { display: flex; width: 100%; }
+html.mobile .seg button { flex: 1 1 0; min-width: 0; padding: 7px 4px; white-space: nowrap; }
+html.mobile .seg-label { display: none; }
+html.mobile .toolbar { padding: 8px 16px; gap: 8px; flex-wrap: wrap; }
+html.mobile .toolbar .sel, html.mobile .zoom input { display: none; }
+html.mobile .zoom { gap: 6px; }
+html.mobile .zbtn { width: 40px; height: 36px; font-size: 22px; }
+html.mobile #scroller { padding: 4px 16px 16px; }
+html.mobile #grid { --cols: 2; --size: calc((100vw - 32px - 10px * (var(--cols) - 1)) / var(--cols)); gap: 10px; grid-template-columns: repeat(var(--cols), 1fr); }
+html.mobile .card { width: auto; }
+html.mobile .card:hover { transform: none; box-shadow: none; }
+html.mobile .bottom { flex-wrap: wrap; gap: 10px; padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); }
+html.mobile .top-actions { gap: 6px; }
+html.mobile .chip { padding: 6px 11px; }
+html.mobile .sheet { padding-top: calc(56px + env(safe-area-inset-top)); }
+html.mobile #dir { pointer-events: none; border-color: transparent; padding-left: 0; }
+html.mobile #open { display: none; }
+html.mobile .dir-note { display: block; }
+html.mobile body.has-cards #controls { display: none; }
+html.mobile body.has-cards .summary { display: flex; padding: 8px 16px 0; }
+html.mobile .task { min-width: 0; flex: 1 1 60%; }
+html.mobile .msg { flex: 1 1 100%; text-align: left; white-space: normal; }
+html.mobile .primary.big { flex: 1 1 100%; }

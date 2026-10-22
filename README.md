@@ -2,7 +2,7 @@
 
 **Bulk media downloader for social profiles.**
 
-Desktop app for macOS and Windows. Paste an Instagram link, see every post as a thumbnail, tick what you want and save it in bulk.
+Desktop app for macOS and Windows. Enter an Instagram username, see every post as a thumbnail, tick what you want and save it in bulk.
 
 ## Screenshots
 
@@ -15,8 +15,9 @@ The second screenshot uses generated placeholder thumbnails, not real posts.
 ## What it downloads
 
 - **Posts & Reels** from a profile: photos, videos, carousels (every slide is saved as its own file).
-- **Stories** (active ones, they live 24 hours) from a profile or a story link.
-- A single **post / reel / story** link.
+- **Stories** (active ones, they live 24 hours) of a profile.
+- Card size: − / + buttons (desktop: thumbnail size; phone: 1–4 columns).
+- The field takes just the profile name (a missing profile is reported right away) (`name` or `@name`); full Instagram links still work too.
 - Choose **Photos + Videos**, **Photos** or **Videos**. The filter also applies inside carousels.
 
 Thumbnails: ▶ marks a video, stacked squares mark a carousel (with the slide count), photos have no mark.
@@ -37,25 +38,24 @@ npm run dist:mac   # .dmg (Apple Silicon + Intel), run on macOS
 npm run dist:win   # .exe installer + portable (x64)
 ```
 
+## Screenshots
+
+<img src="design/screenshots/mobile-home.png" width="240"> <img src="design/screenshots/mobile-results.png" width="240"> <img src="design/screenshots/mobile-settings.png" width="240">
+
+Icons, splash screens, fonts, colours and style notes live in [`design/`](design/README.md).
+
 ## Releases
 
-Pushing a tag like `v2.0.1` builds the macOS and Windows installers on GitHub Actions and attaches them to a GitHub Release automatically.
+Every version is published the same way, with one script that bumps the version, builds all installers, tags and creates the GitHub Release:
 
 ```
-git tag v2.0.1 && git push origin v2.0.1
+scripts/release.sh 2.0.3
 ```
 
-## Notes
-
-- Log in once with **Log in to Instagram**. The session stays inside the app.
-- v2.0 no longer needs yt-dlp or ffmpeg: it reads Instagram's own data from a hidden, logged-in page and downloads the files directly.
-- Instagram may rate-limit large batches. The app paces its requests; if it says so, wait a few minutes.
-- Download only content you have the right to save.
-
-## Tests
+It needs macOS with Xcode, JDK 21, the Android SDK and a logged-in `gh`. Each release carries six files: `Grabbly-arm64.dmg`, `Grabbly-x64.dmg`, `Grabbly-Setup.exe`, `Grabbly-Portable.exe`, `Grabbly-android-debug.apk` and `Grabbly-ios-simulator.zip` (iOS runs in the Simulator only, a real iPhone needs signing). Old releases stay; every run adds a new version.
 
 `npm test` runs the unit tests. `test/e2e.js` runs against a real account (needs a cookies file, see the header of the script).
 
 ## Branding
 
-The app icon (`build/icon.svg`, rendered to `build/icon.png`) uses the "g" glyph from **Lobster** by Impallari Type, licensed under the SIL Open Font License 1.1. The font file and license are in `assets/fonts/`.
+See [`design/`](design/README.md) for every icon, colour and font. The app icon (`build/icon.svg`, rendered to `build/icon.png`) uses the "g" glyph from **Lobster** by Impallari Type, licensed under the SIL Open Font License 1.1. The font file and license are in `assets/fonts/`.

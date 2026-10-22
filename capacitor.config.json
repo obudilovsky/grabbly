@@ -1,0 +1,7 @@
+{
+  "appId": "com.obudilovsky.grabbly",
+  "appName": "Grabbly",
+  "webDir": "www",
+  "backgroundColor": "#0e0f13",
+  "ios": { "contentInset": "never" }
+}

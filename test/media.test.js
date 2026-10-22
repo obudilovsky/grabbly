@@ -11,6 +11,11 @@ assert.deepStrictEqual(m.parseUrl('https://www.instagram.com/reel/ABC_d-1/'), { 
 assert.deepStrictEqual(m.parseUrl('https://www.instagram.com/instagram/p/XYZ/'), { type: 'post', code: 'XYZ' });
 assert.deepStrictEqual(m.parseUrl('https://www.instagram.com/stories/instagram/123/'), { type: 'stories', username: 'instagram', storyId: '123' });
 assert.deepStrictEqual(m.parseUrl('https://www.instagram.com/stories/instagram/'), { type: 'stories', username: 'instagram', storyId: null });
+assert.deepStrictEqual(m.parseUrl('instagram'), { type: 'profile', username: 'instagram' });
+assert.deepStrictEqual(m.parseUrl('  @instagram '), { type: 'profile', username: 'instagram' });
+assert.deepStrictEqual(m.parseUrl('instagram.com/instagram'), { type: 'profile', username: 'instagram' });
+assert.strictEqual(m.parseUrl('not a name'), null);
+assert.strictEqual(m.parseUrl('explore'), null);
 assert.strictEqual(m.parseUrl('https://example.com/a/'), null);
 assert.strictEqual(m.parseUrl('https://www.instagram.com/explore/'), null);
 

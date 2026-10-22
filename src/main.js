@@ -74,7 +74,7 @@ let listCtl = null; // {cancelled}
 
 ipcMain.handle('list', async (_e, { url, limit, source }) => {
   const target = media.parseUrl(url);
-  if (!target) throw new Error('This does not look like an Instagram link.');
+  if (!target) throw new Error('Enter a valid Instagram username.');
   if (!(await isLoggedIn())) throw new Error('Not logged in. Click "Log in to Instagram" first.');
   const api = new ApiClient(igSession());
   const ctl = (listCtl = { cancelled: false });
@@ -95,7 +95,7 @@ ipcMain.handle('list', async (_e, { url, limit, source }) => {
       try {
         // fallback for the user-id lookup: any post of the profile
         if (!firstCode && target.type === 'profile') {
-          firstCode = await scrapeProfile({ api, username: target.username, limit: 1, onEntry: () => {} }).then((r) => r.firstCode).catch(() => null);
+          firstCode = await scrapeProfile({ api, username: target.username, limit: 1, onEntry: () => {} }).then((r) => r.firstCode).catch((e) => { if (/does not exist/.test(e.message)) throw e; return null; });
         }
         const stories = await api.stories(target.username, firstCode);
         const only = target.storyId ? stories.filter((s) => s.id === `story_${target.storyId}`) : stories;
@@ -131,7 +131,7 @@ ipcMain.handle('download', async (_e, { items, dir, concurrency, mediaFilter }) 
       try {
         report(item.id, 'downloading', 0);
         // posts from the grid are resolved here (one API call each); stories/single posts arrive resolved
-        const entry = item.files ? item : media.entryFromItem(await api.mediaInfo(item.code), { username: item.username });
+        const entry = item.files ? item : media.entryFromItem(await api.mediaFromPage(item.code), { username: item.username });
         const files = media.filterFiles(entry.files, mediaFilter);
         if (!files.length) { report(item.id, 'skipped', 100); continue; }
         for (let i = 0; i < files.length; i++) {

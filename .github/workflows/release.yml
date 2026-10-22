@@ -1,9 +1,7 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch: # releases are made by scripts/release.sh, not by pushing a tag
 
 permissions:
   contents: write
