@@ -43,6 +43,7 @@
       "artifactName": "${productName}-${arch}.${ext}"
     },
     "win": {
+      "icon": "build/icon-win.png",
       "target": [
         "nsis",
         "portable"

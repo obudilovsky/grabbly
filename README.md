@@ -84,4 +84,4 @@ It needs macOS with Xcode, JDK 21, the Android SDK and a logged-in `gh`. Each re
 
 ## Branding
 
-See [`design/`](design/README.md) for every icon, colour and font. The app icon (`build/icon.svg`, rendered to `build/icon.png`) uses the "g" glyph from **Lobster** by Impallari Type, licensed under the SIL Open Font License 1.1. The font file and license are in `assets/fonts/`.
+See [`design/`](design/README.md) for every icon, colour and font. The app icon (`build/icon.svg`, rendered to `build/icon.png`; `build/icon-win.*` is the same artwork cropped edge to edge for Windows, which has no icon margin) uses the "g" glyph from **Lobster** by Impallari Type, licensed under the SIL Open Font License 1.1. The font file and license are in `assets/fonts/`.
