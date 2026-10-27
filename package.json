@@ -1,6 +1,6 @@
 {
   "name": "grabbly",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Grabbly: bulk media downloader for social profiles",
   "main": "src/main.js",
   "scripts": {
@@ -43,6 +43,7 @@
       "artifactName": "${productName}-${arch}.${ext}"
     },
     "win": {
+      "icon": "build/icon-win.png",
       "target": [
         "nsis",
         "portable"

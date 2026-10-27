@@ -20,7 +20,7 @@ let win;
 
 function createWindow() {
   const mac = process.platform === 'darwin';
-  const icon = path.join(__dirname, '..', 'build', 'icon.png');
+  const icon = path.join(__dirname, '..', 'build', mac ? 'icon.png' : 'icon-win.png');
   win = new BrowserWindow({
     width: 1180, height: 800, minWidth: 820, minHeight: 560,
     title: 'Grabbly',
